@@ -25,8 +25,10 @@ export function useOwnedMiners() {
 
   const { address } = useAccount();
 
+
   const [miners, setMiners] =
     useState<number[]>([]);
+
 
   const [loading, setLoading] =
     useState(false);
@@ -50,88 +52,46 @@ export function useOwnedMiners() {
         setLoading(true);
 
 
-        const logs = await getLogs(
-          publicClient,
-          {
-            address: NFT_ADDRESS,
-            event: transferEvent,
-            fromBlock: DEPLOY_BLOCK,
-            toBlock: "latest",
-          }
-        );
+        const logs =
+          await getLogs(
+            publicClient,
+            {
+              address: NFT_ADDRESS,
 
+              event: transferEvent,
 
-        const ownership =
-          new Map<bigint, string>();
+              args: {
+                to: address,
+              },
 
+              fromBlock:
+                DEPLOY_BLOCK,
 
-        for (const log of logs) {
-
-          const tokenId =
-            log.args.tokenId;
-
-          const to =
-            log.args.to;
-
-          if (
-            tokenId === undefined ||
-            to === undefined
-          ) {
-            continue;
-          }
-
-
-          ownership.set(
-            tokenId,
-            to.toLowerCase()
+              toBlock: "latest",
+            }
           );
 
-        }
 
-
-        const wallet =
-          address.toLowerCase();
-
-
-        const ownedIds =
-          Array.from(
-            ownership.entries()
-          )
-            .filter(
-              ([, owner]) =>
-                owner === wallet
-            )
-            .map(
-              ([tokenId]) =>
-                Number(tokenId)
-            )
-            .sort(
-              (a, b) => a - b
-            );
+        const ids =
+          logs.map(
+            (log) =>
+              Number(log.args.tokenId)
+          );
 
 
         console.log(
-          "ALL TRANSFER LOGS",
+          "TRANSFER LOGS",
           logs
         );
 
 
         console.log(
-          "CONNECTED WALLET",
-          address
-        );
-
-
-        console.log(
           "OWNED MINERS",
-          ownedIds
+          ids
         );
 
 
-        setMiners(
-          ownedIds
-        );
-
+        setMiners(ids);
 
       } catch (error) {
 
