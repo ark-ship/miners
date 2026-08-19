@@ -1,26 +1,44 @@
 import { createPublicClient, http } from "viem";
+import { defineChain } from "viem";
+
+
+export const robinhood = defineChain({
+
+  id: 4663,
+
+  name: "Robinhood Chain",
+
+  nativeCurrency: {
+    name: "Ether",
+    symbol: "ETH",
+    decimals: 18,
+  },
+
+  rpcUrls: {
+    default: {
+      http: [
+        "https://rpc.mainnet.chain.robinhood.com",
+      ],
+    },
+  },
+
+  blockExplorers: {
+    default: {
+      name: "Robinhood Blockscout",
+      url: "https://robinhoodchain.blockscout.com",
+    },
+  },
+
+});
 
 
 export const publicClient =
-createPublicClient({
+  createPublicClient({
 
-chain:{
-id:46630,
-name:"Robinhood Testnet",
-nativeCurrency:{
-name:"ETH",
-symbol:"ETH",
-decimals:18
-},
-rpcUrls:{
-default:{
-http:[
-"https://rpc.testnet.chain.robinhood.com"
-]
-}
-}
-},
+    chain: robinhood,
 
-transport:http()
+    transport: http(
+      "https://rpc.mainnet.chain.robinhood.com"
+    ),
 
-});
+  });

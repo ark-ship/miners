@@ -13,7 +13,7 @@ const NFT_ADDRESS =
 
 
 const DEPLOY_BLOCK =
-  BigInt(100886103);
+  BigInt(40224204);
 
 
 const transferEvent = parseAbiItem(
@@ -25,10 +25,8 @@ export function useOwnedMiners() {
 
   const { address } = useAccount();
 
-
   const [miners, setMiners] =
     useState<number[]>([]);
-
 
   const [loading, setLoading] =
     useState(false);
@@ -52,46 +50,88 @@ export function useOwnedMiners() {
         setLoading(true);
 
 
-        const logs =
-          await getLogs(
-            publicClient,
-            {
-              address: NFT_ADDRESS,
+        const logs = await getLogs(
+          publicClient,
+          {
+            address: NFT_ADDRESS,
+            event: transferEvent,
+            fromBlock: DEPLOY_BLOCK,
+            toBlock: "latest",
+          }
+        );
 
-              event: transferEvent,
 
-              args: {
-                to: address,
-              },
+        const ownership =
+          new Map<bigint, string>();
 
-              fromBlock:
-                DEPLOY_BLOCK,
 
-              toBlock: "latest",
-            }
+        for (const log of logs) {
+
+          const tokenId =
+            log.args.tokenId;
+
+          const to =
+            log.args.to;
+
+          if (
+            tokenId === undefined ||
+            to === undefined
+          ) {
+            continue;
+          }
+
+
+          ownership.set(
+            tokenId,
+            to.toLowerCase()
           );
 
+        }
 
-        const ids =
-          logs.map(
-            (log) =>
-              Number(log.args.tokenId)
-          );
+
+        const wallet =
+          address.toLowerCase();
+
+
+        const ownedIds =
+          Array.from(
+            ownership.entries()
+          )
+            .filter(
+              ([, owner]) =>
+                owner === wallet
+            )
+            .map(
+              ([tokenId]) =>
+                Number(tokenId)
+            )
+            .sort(
+              (a, b) => a - b
+            );
 
 
         console.log(
-          "TRANSFER LOGS",
+          "ALL TRANSFER LOGS",
           logs
         );
 
 
         console.log(
-          "OWNED MINERS",
-          ids
+          "CONNECTED WALLET",
+          address
         );
 
 
-        setMiners(ids);
+        console.log(
+          "OWNED MINERS",
+          ownedIds
+        );
+
+
+        setMiners(
+          ownedIds
+        );
+
 
       } catch (error) {
 
