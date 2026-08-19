@@ -126,6 +126,26 @@ export default function Navbar() {
 
           ))}
 
+
+          {/* DOCS */}
+
+          <a
+            href="https://docs.hoodminers.xyz"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="
+              font-bold
+              text-sm
+              xl:text-base
+              text-white
+              hover:text-[#ccff00]
+              transition
+              whitespace-nowrap
+            "
+          >
+            DOCS
+          </a>
+
         </div>
 
 
@@ -209,6 +229,28 @@ export default function Navbar() {
               </Link>
 
             ))}
+
+
+            {/* MOBILE DOCS */}
+
+            <a
+              href="https://docs.hoodminers.xyz"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={closeMenu}
+              className="
+                px-4
+                py-3
+                rounded-xl
+                font-bold
+                text-white
+                hover:bg-[#111]
+                hover:text-[#ccff00]
+                transition
+              "
+            >
+              DOCS
+            </a>
 
 
             {/* MOBILE WALLET */}
