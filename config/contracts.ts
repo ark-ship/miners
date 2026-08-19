@@ -1,0 +1,6 @@
+export const HOODMINERS =
+"0x81533b3c52f38d87D5b3CdeB663EDe6Badc753B7";
+
+
+export const MINING =
+"0x75f13737BaEe5BFD22e6ffFdd0191358Ab79Aedb";

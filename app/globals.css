@@ -24,3 +24,68 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+[data-rk] button {
+    font-family: inherit !important;
+}
+
+
+.iekbcc0{
+    border-radius:12px!important;
+}
+
+
+[data-rk]{
+    --rk-colors-accentColor:#ccff00!important;
+    --rk-colors-accentColorForeground:#000!important;
+}
+
+[data-rk] {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+/* modal width */
+[data-rk] [role="dialog"] {
+  width: 420px !important;
+  max-width: calc(100vw - 32px) !important;
+}
+
+
+/* wallet cards */
+[data-rk] button {
+  border-radius: 14px !important;
+}
+
+
+/* connect button */
+[data-rk] .iekbcc0 {
+  background:#ccff00 !important;
+  color:black !important;
+}
+
+/* RainbowKit Fix */
+[data-rk] {
+  position: relative;
+  z-index: 9999;
+}
+
+
+[data-rk] [role="dialog"] {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+
+  margin: 0 !important;
+
+  width: 420px !important;
+  max-width: calc(100vw - 40px) !important;
+}
+
+
+/* overlay */
+[data-rk] [role="presentation"] {
+  position: fixed !important;
+  inset: 0 !important;
+}
